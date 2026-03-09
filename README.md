@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kataleya Flawers
 
-## Getting Started
+Sitio web de landing page para **Kataleya Flawers**, floristería ubicada en Lima, Perú, con 32 años de experiencia en arreglos florales y orquídeas.
 
-First, run the development server:
+## Stack tecnológico
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 16** (App Router)
+- **React 19**
+- **TypeScript 5**
+- **Tailwind CSS v4**
+- **Playwright** (pruebas)
+- **Fuentes:** Playfair Display (títulos) · Lato (cuerpo) vía Google Fonts
+
+## Estructura del proyecto
+
+```
+src/
+├── app/
+│   ├── globals.css        # Variables CSS de la paleta y configuración de Tailwind
+│   ├── layout.tsx         # Layout raíz (fuentes Geist + metadatos globales)
+│   └── page.tsx           # Página principal (composición de secciones)
+└── components/
+    ├── Navbar.tsx          # Barra de navegación fija con scroll suave y menú móvil
+    ├── Footer.tsx          # Pie de página con dirección y contacto
+    └── sections/
+        ├── HeroSection.tsx     # Sección de bienvenida con imagen y CTAs
+        ├── HeroButtons.tsx     # Botones de llamada a la acción del hero
+        ├── CatalogSection.tsx  # Catálogo de 6 productos en grilla responsiva
+        ├── AboutSection.tsx    # Historia y estadísticas del negocio
+        ├── ContactSection.tsx  # Sección de contacto (formulario + datos)
+        └── ContactForm.tsx     # Formulario de contacto
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Secciones de la página
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| ID anchor    | Sección   | Descripción                                              |
+| ------------ | --------- | -------------------------------------------------------- |
+| `#hero`      | Hero      | Presentación de la marca con botones hacia catálogo y contacto |
+| `#catalogo`  | Catálogo  | Grilla de 6 productos: arreglos, orquídeas, ramos, centros de mesa, coronas y detalles |
+| `#nosotros`  | Nosotros  | Historia del negocio con 3 métricas destacadas           |
+| `#contacto`  | Contacto  | Formulario de contacto, dirección y horario de atención  |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Paleta de colores
 
-## Learn More
+| Variable              | Valor       | Uso                  |
+| --------------------- | ----------- | -------------------- |
+| `--color-primary`     | `#c0392b`   | Títulos principales  |
+| `--color-secondary`   | `#e8b84b`   | Acentos dorados      |
+| `--color-accent`      | `#2d5a1b`   | Verde destacado      |
+| `--color-cream`       | `#fdfcfa`   | Fondo base           |
+| `--color-dark`        | `#1a1a1a`   | Texto general        |
 
-To learn more about Next.js, take a look at the following resources:
+## Desarrollo local
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm install
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Abre [http://localhost:3000](http://localhost:3000) en el navegador.
 
-## Deploy on Vercel
+## Scripts disponibles
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Comando         | Descripción                        |
+| --------------- | ---------------------------------- |
+| `npm run dev`   | Servidor de desarrollo             |
+| `npm run build` | Compilación para producción        |
+| `npm run start` | Servidor de producción             |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
