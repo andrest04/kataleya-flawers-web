@@ -1,0 +1,88 @@
+import Image from "next/image";
+
+const highlights = [
+  { value: "32", label: "Años de experiencia" },
+  { value: "500+", label: "Arreglos al mes" },
+  { value: "100%", label: "Dedicación y amor" },
+] as const;
+
+export default function AboutSection() {
+  return (
+    <section
+      id="nosotros"
+      className="px-4 py-24 sm:px-6 lg:px-8"
+      style={{
+        backgroundColor:
+          "color-mix(in srgb, var(--color-secondary) 10%, var(--color-cream))",
+      }}
+    >
+      <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div className="space-y-8">
+          <div className="space-y-4">
+            <p
+              className="text-sm font-semibold tracking-[0.2em] uppercase"
+              style={{ color: "var(--color-accent)" }}
+            >
+              Desde Lima para cada ocasión
+            </p>
+            <h2
+              className="text-4xl sm:text-5xl"
+              style={{
+                color: "var(--color-primary)",
+                fontFamily: "var(--font-heading)",
+              }}
+            >
+              Nuestra Historia
+            </h2>
+            <p className="max-w-2xl text-lg leading-8">
+              En Kataleya Flawers llevamos 32 años transformando flores en
+              gestos memorables. Nuestra pasión por los arreglos florales y las
+              orquídeas nace del cuidado por cada detalle, desde la selección de
+              cada tallo hasta la composición final.
+            </p>
+            <p className="max-w-2xl text-lg leading-8">
+              Desde nuestra ubicación en Lima acompañamos celebraciones,
+              homenajes y momentos cotidianos con propuestas hechas para emocionar
+              y perdurar en la memoria.
+            </p>
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-3">
+            {highlights.map((highlight) => (
+              <div
+                key={highlight.label}
+                className="rounded-[1.5rem] border px-5 py-6"
+                style={{
+                  backgroundColor: "var(--color-cream)",
+                  borderColor:
+                    "color-mix(in srgb, var(--color-accent) 16%, transparent)",
+                }}
+              >
+                <p
+                  className="text-4xl leading-none"
+                  style={{
+                    color: "var(--color-accent)",
+                    fontFamily: "var(--font-heading)",
+                  }}
+                >
+                  {highlight.value}
+                </p>
+                <p className="mt-3 text-sm leading-6">{highlight.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="relative overflow-hidden rounded-[2rem]">
+          <Image
+            src="/about-placeholder.svg"
+            alt="Nuestra historia"
+            width={600}
+            height={400}
+            className="h-auto w-full"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
