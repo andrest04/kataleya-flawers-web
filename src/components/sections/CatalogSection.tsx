@@ -41,7 +41,10 @@ const products = [
 
 export default function CatalogSection() {
   return (
-    <section id="catalogo" className="px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      id="catalogo"
+      className="scroll-mt-32 px-4 py-24 sm:px-6 lg:px-8"
+    >
       <div className="mx-auto max-w-7xl space-y-12">
         <div className="space-y-4 text-center">
           <p
@@ -90,6 +93,7 @@ export default function CatalogSection() {
                   src="/catalog-placeholder.svg"
                   alt={product.nombre}
                   fill
+                  priority={product.id === 1}
                   sizes="(max-width: 639px) 100vw, (max-width: 1279px) 50vw, 33vw"
                   className="object-cover"
                 />

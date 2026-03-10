@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const navLinks = [
   { label: "Inicio", href: "#hero" },
-  { label: "Catálogo", href: "#catalogo" },
+  { label: "Catalogo", href: "#catalogo" },
   { label: "Nosotros", href: "#nosotros" },
   { label: "Contacto", href: "#contacto" },
 ] as const;
@@ -15,7 +15,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 8);
+      setIsScrolled(window.scrollY > 60);
     };
 
     handleScroll();
@@ -26,116 +26,209 @@ export default function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
+
   const handleNavigate = (href: string) => {
-    const target = document.querySelector(href);
+    const target = document.querySelector<HTMLElement>(href);
 
     if (!target) {
       setIsMenuOpen(false);
       return;
     }
 
-    const top =
-      target.getBoundingClientRect().top + window.scrollY - 88;
+    const scrollToTarget = () => {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    };
 
-    window.scrollTo({
-      top,
-      behavior: "smooth",
-    });
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+      window.setTimeout(scrollToTarget, 320);
+      return;
+    }
 
-    setIsMenuOpen(false);
+    scrollToTarget();
   };
 
   return (
-    <header
-      className="fixed top-0 right-0 left-0 z-50 transition-[background-color,box-shadow]"
-      style={{
-        backgroundColor: "var(--color-cream)",
-        boxShadow: isScrolled
-          ? "0 10px 30px color-mix(in srgb, var(--color-dark) 10%, transparent)"
-          : "none",
-      }}
-    >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <button
-          type="button"
-          className="text-left text-2xl leading-none"
-          onClick={() => handleNavigate("#hero")}
-          style={{
-            color: "var(--color-primary)",
-            fontFamily: "var(--font-heading)",
-          }}
-        >
-          Kataleya Flawers
-        </button>
+    <>
+      <header
+        className="fixed top-0 right-0 left-0 z-[90] transition-all duration-300"
+        style={{
+          backgroundColor: isScrolled ? "var(--color-cream)" : "transparent",
+          boxShadow: isScrolled
+            ? "0 14px 36px color-mix(in srgb, var(--color-dark) 10%, transparent)"
+            : "none",
+          backdropFilter: isScrolled ? "blur(8px)" : "blur(0px)",
+        }}
+      >
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
+          <button
+            type="button"
+            className="cursor-pointer text-left text-[1.45rem] leading-none transition-all duration-300"
+            onClick={() => handleNavigate("#hero")}
+            style={{
+              color: "var(--color-primary)",
+              fontFamily: "var(--font-display)",
+            }}
+          >
+            Kataleya Flawers
+          </button>
 
-        <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-5 md:flex">
+            {navLinks.map((link, index) => (
+              <div key={link.href} className="flex items-center gap-5">
+                {index > 0 ? (
+                  <span
+                    aria-hidden="true"
+                    className="text-sm leading-none"
+                    style={{ color: "var(--color-secondary)" }}
+                  >
+                    ·
+                  </span>
+                ) : null}
+                <button
+                  type="button"
+                  className="cursor-pointer text-[0.8rem] font-normal tracking-[0.08em] uppercase transition-all duration-300"
+                  onClick={() => handleNavigate(link.href)}
+                  style={{
+                    color: "var(--color-dark)",
+                    fontFamily: "var(--font-body)",
+                  }}
+                  onMouseEnter={(event) => {
+                    event.currentTarget.style.color = "var(--color-accent)";
+                  }}
+                  onMouseLeave={(event) => {
+                    event.currentTarget.style.color = "var(--color-dark)";
+                  }}
+                >
+                  {link.label}
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className="hidden md:block">
+            <button
+              type="button"
+              className="cursor-pointer rounded-full border px-6 py-3 text-[0.8rem] tracking-[0.08em] uppercase transition-all duration-300"
+              onClick={() => handleNavigate("#contacto")}
+              style={{
+                borderColor: "var(--color-primary)",
+                color: "var(--color-primary)",
+                fontFamily: "var(--font-body)",
+              }}
+              onMouseEnter={(event) => {
+                event.currentTarget.style.backgroundColor = "var(--color-primary)";
+                event.currentTarget.style.color = "var(--color-cream)";
+              }}
+              onMouseLeave={(event) => {
+                event.currentTarget.style.backgroundColor = "transparent";
+                event.currentTarget.style.color = "var(--color-primary)";
+              }}
+            >
+              Hacer pedido
+            </button>
+          </div>
+
+          <button
+            type="button"
+            className="flex h-11 w-11 cursor-pointer flex-col items-center justify-center gap-1.5 md:hidden"
+            aria-label={isMenuOpen ? "Cerrar menu" : "Abrir menu"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setIsMenuOpen((current) => !current)}
+          >
+            <span
+              className="block h-0.5 w-7 transition-all duration-300"
+              style={{
+                backgroundColor: "var(--color-primary)",
+                transform: isMenuOpen ? "translateY(8px) rotate(45deg)" : "none",
+              }}
+            />
+            <span
+              className="block h-0.5 w-7 transition-all duration-300"
+              style={{
+                backgroundColor: "var(--color-primary)",
+                opacity: isMenuOpen ? "0" : "1",
+              }}
+            />
+            <span
+              className="block h-0.5 w-7 transition-all duration-300"
+              style={{
+                backgroundColor: "var(--color-primary)",
+                transform: isMenuOpen ? "translateY(-8px) rotate(-45deg)" : "none",
+              }}
+            />
+          </button>
+        </nav>
+      </header>
+
+      <div
+        id="mobile-menu"
+        className={`fixed inset-0 z-[80] flex items-center justify-center px-6 transition-all duration-300 md:hidden ${
+          isMenuOpen
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
+        }`}
+        style={{
+          backgroundColor: isMenuOpen
+            ? "color-mix(in srgb, var(--color-cream) 96%, transparent)"
+            : "transparent",
+          backdropFilter: isMenuOpen ? "blur(10px)" : "blur(0px)",
+        }}
+      >
+        <div className="flex flex-col items-center gap-8 text-center">
           {navLinks.map((link) => (
             <button
               key={link.href}
               type="button"
-              className="cursor-pointer text-sm tracking-[0.08em] uppercase transition-opacity hover:opacity-70"
+              className="cursor-pointer text-3xl transition-all duration-300"
               onClick={() => handleNavigate(link.href)}
-              style={{ color: "var(--color-dark)" }}
+              style={{
+                color: "var(--color-primary)",
+                fontFamily: "var(--font-display)",
+              }}
+              onMouseEnter={(event) => {
+                event.currentTarget.style.color = "var(--color-accent)";
+              }}
+              onMouseLeave={(event) => {
+                event.currentTarget.style.color = "var(--color-primary)";
+              }}
             >
               {link.label}
             </button>
           ))}
+          <button
+            type="button"
+            className="cursor-pointer rounded-full border px-8 py-3 text-[0.8rem] tracking-[0.08em] uppercase transition-all duration-300"
+            onClick={() => handleNavigate("#contacto")}
+            style={{
+              borderColor: "var(--color-primary)",
+              color: "var(--color-primary)",
+              fontFamily: "var(--font-body)",
+            }}
+            onMouseEnter={(event) => {
+              event.currentTarget.style.backgroundColor = "var(--color-primary)";
+              event.currentTarget.style.color = "var(--color-cream)";
+            }}
+            onMouseLeave={(event) => {
+              event.currentTarget.style.backgroundColor = "transparent";
+              event.currentTarget.style.color = "var(--color-primary)";
+            }}
+          >
+            Hacer pedido
+          </button>
         </div>
-
-        <button
-          type="button"
-          className="flex flex-col items-center justify-center gap-1.5 md:hidden"
-          aria-label={isMenuOpen ? "Cerrar menu" : "Abrir menu"}
-          aria-expanded={isMenuOpen}
-          onClick={() => setIsMenuOpen((current) => !current)}
-        >
-          <span
-            className="block h-0.5 w-6 transition-transform"
-            style={{
-              backgroundColor: "var(--color-dark)",
-              transform: isMenuOpen ? "translateY(8px) rotate(45deg)" : "none",
-            }}
-          />
-          <span
-            className="block h-0.5 w-6 transition-opacity"
-            style={{
-              backgroundColor: "var(--color-dark)",
-              opacity: isMenuOpen ? "0" : "1",
-            }}
-          />
-          <span
-            className="block h-0.5 w-6 transition-transform"
-            style={{
-              backgroundColor: "var(--color-dark)",
-              transform: isMenuOpen ? "translateY(-8px) rotate(-45deg)" : "none",
-            }}
-          />
-        </button>
-      </nav>
-
-      {isMenuOpen ? (
-        <div
-          className="border-t px-4 py-4 md:hidden"
-          style={{
-            backgroundColor: "var(--color-cream)",
-            borderColor: "color-mix(in srgb, var(--color-dark) 12%, transparent)",
-          }}
-        >
-          <div className="flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <button
-                key={link.href}
-                type="button"
-                className="w-full text-left text-sm tracking-[0.08em] uppercase"
-                onClick={() => handleNavigate(link.href)}
-                style={{ color: "var(--color-dark)" }}
-              >
-                {link.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      ) : null}
-    </header>
+      </div>
+    </>
   );
 }

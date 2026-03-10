@@ -10,17 +10,15 @@ export default function HeroButtons({
   secondaryTarget,
 }: HeroButtonsProps) {
   const handleScroll = (targetId: string) => {
-    const target = document.querySelector(targetId);
+    const target = document.querySelector<HTMLElement>(targetId);
 
     if (!target) {
       return;
     }
 
-    const top = target.getBoundingClientRect().top + window.scrollY - 88;
-
-    window.scrollTo({
-      top,
+    target.scrollIntoView({
       behavior: "smooth",
+      block: "start",
     });
   };
 
