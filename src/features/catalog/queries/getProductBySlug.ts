@@ -25,17 +25,22 @@ function mapProductRow(row: ProductRow): Product {
   };
 }
 
-export async function getProducts(): Promise<Product[]> {
+export async function getProductBySlug(slug: string): Promise<Product | null> {
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .from('products')
     .select('*')
-    .order('display_order', { ascending: true });
+    .eq('slug', slug)
+    .single();
 
   if (error) {
-    throw new Error(`getProducts failed: ${error.message}`);
+    if (error.code === 'PGRST116') {
+      // No rows returned — product not found
+      return null;
+    }
+    throw new Error(`getProductBySlug failed: ${error.message}`);
   }
 
-  return (data ?? []).map(mapProductRow);
+  return data ? mapProductRow(data) : null;
 }
