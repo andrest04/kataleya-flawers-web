@@ -1,19 +1,16 @@
 import Link from 'next/link';
-import { getAdminCategories } from '@/features/admin/queries/categories';
-import ProductForm from '@/features/admin/components/ProductForm';
+import CategoryForm from '@/features/admin/components/CategoryForm';
 
-export default async function NuevoProductoPage() {
-  const categories = await getAdminCategories();
-
+export default function NuevaCategoriaPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
         <Link
-          href="/admin/productos"
+          href="/admin/categorias"
           className="text-sm transition-opacity hover:opacity-70"
           style={{ color: 'var(--color-muted)' }}
         >
-          ← Volver a productos
+          ← Volver a categorías
         </Link>
       </div>
 
@@ -22,10 +19,10 @@ export default async function NuevoProductoPage() {
           className="text-2xl font-serif font-semibold"
           style={{ color: 'var(--color-dark)' }}
         >
-          Nuevo producto
+          Nueva categoría
         </h1>
         <p className="text-sm mt-1" style={{ color: 'var(--color-muted)' }}>
-          Completá los datos del nuevo producto.
+          Completá los datos de la nueva categoría.
         </p>
       </div>
 
@@ -36,7 +33,7 @@ export default async function NuevoProductoPage() {
           border: '1px solid var(--color-border)',
         }}
       >
-        <ProductForm categories={categories} />
+        <CategoryForm />
       </div>
     </div>
   );
